@@ -34,6 +34,16 @@ class CustomBarButtonItem: UIBarButtonItem {
 
         button.setAttributedTitle(attributedTitle, for: .normal)
 
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 0,
+            bottom: 0,
+            trailing: 16
+        )
+
+        button.configuration = config
+
         super.init()
         self.customView = button
     }
