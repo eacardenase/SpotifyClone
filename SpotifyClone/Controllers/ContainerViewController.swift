@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol ContainerViewControllerDelegate: AnyObject {
-
-    func willTransition(to pendingViewControllers: [UIViewController])
-
-}
+//protocol ContainerViewControllerDelegate: AnyObject {
+//
+//    func willTransition(to pendingViewControllers: [UIViewController])
+//
+//}
 
 class ContainerViewController: UIViewController {
 
@@ -26,7 +26,7 @@ class ContainerViewController: UIViewController {
     var pages: [UIViewController]
     var currentViewController: UIViewController
 
-    weak var delegate: ContainerViewControllerDelegate?
+//    weak var delegate: ContainerViewControllerDelegate?
 
     // MARK: - Initializes
 
@@ -60,8 +60,8 @@ extension ContainerViewController {
         addChild(pageViewController)
         view.addSubview(pageViewController.view)
 
-        pageViewController.dataSource = self
-        pageViewController.delegate = self
+//        pageViewController.dataSource = self
+//        pageViewController.delegate = self
         pageViewController.view.bounds = view.bounds
         pageViewController.didMove(toParent: self)
         pageViewController.setViewControllers(
@@ -77,51 +77,51 @@ extension ContainerViewController {
 
 // MARK: - UIPageViewControllerDataSource
 
-extension ContainerViewController: UIPageViewControllerDataSource {
-
-    func pageViewController(
-        _ pageViewController: UIPageViewController,
-        viewControllerBefore viewController: UIViewController
-    ) -> UIViewController? {
-        guard
-            let index = pages.firstIndex(of: viewController),
-            index - 1 >= 0
-        else {
-            return nil
-        }
-
-        currentViewController = pages[index - 1]
-
-        return currentViewController
-    }
-
-    func pageViewController(
-        _ pageViewController: UIPageViewController,
-        viewControllerAfter viewController: UIViewController
-    ) -> UIViewController? {
-        guard
-            let index = pages.firstIndex(of: viewController),
-            index + 1 < pages.count
-        else {
-            return nil
-        }
-
-        currentViewController = pages[index + 1]
-
-        return currentViewController
-    }
-
-}
+//extension ContainerViewController: UIPageViewControllerDataSource {
+//
+//    func pageViewController(
+//        _ pageViewController: UIPageViewController,
+//        viewControllerBefore viewController: UIViewController
+//    ) -> UIViewController? {
+//        guard
+//            let index = pages.firstIndex(of: viewController),
+//            index - 1 >= 0
+//        else {
+//            return nil
+//        }
+//
+//        currentViewController = pages[index - 1]
+//
+//        return currentViewController
+//    }
+//
+//    func pageViewController(
+//        _ pageViewController: UIPageViewController,
+//        viewControllerAfter viewController: UIViewController
+//    ) -> UIViewController? {
+//        guard
+//            let index = pages.firstIndex(of: viewController),
+//            index + 1 < pages.count
+//        else {
+//            return nil
+//        }
+//
+//        currentViewController = pages[index + 1]
+//
+//        return currentViewController
+//    }
+//
+//}
 
 // MARK: - UIPageViewControllerDelegate
 
-extension ContainerViewController: UIPageViewControllerDelegate {
-
-    func pageViewController(
-        _ pageViewController: UIPageViewController,
-        willTransitionTo pendingViewControllers: [UIViewController]
-    ) {
-        delegate?.willTransition(to: pendingViewControllers)
-    }
-
-}
+//extension ContainerViewController: UIPageViewControllerDelegate {
+//
+//    func pageViewController(
+//        _ pageViewController: UIPageViewController,
+//        willTransitionTo pendingViewControllers: [UIViewController]
+//    ) {
+//        delegate?.willTransition(to: pendingViewControllers)
+//    }
+//
+//}
