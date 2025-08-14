@@ -90,29 +90,23 @@ extension MenuBar {
     private func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(playlistsButton)
-        addSubview(artistsButton)
-        addSubview(albumsButton)
+        let stackView = UIStackView(arrangedSubviews: [
+            playlistsButton,
+            artistsButton,
+            albumsButton,
+        ])
+
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 36
+
+        addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            playlistsButton.topAnchor.constraint(equalTo: topAnchor),
-            playlistsButton.leadingAnchor.constraint(
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
                 constant: 16
-            ),
-            artistsButton.topAnchor.constraint(
-                equalTo: playlistsButton.topAnchor
-            ),
-            artistsButton.leadingAnchor.constraint(
-                equalTo: playlistsButton.trailingAnchor,
-                constant: 36
-            ),
-            albumsButton.topAnchor.constraint(
-                equalTo: playlistsButton.topAnchor
-            ),
-            albumsButton.leadingAnchor.constraint(
-                equalTo: artistsButton.trailingAnchor,
-                constant: 36
             ),
         ])
     }
