@@ -7,9 +7,17 @@
 
 import UIKit
 
+protocol MenuBarDelegate: AnyObject {
+
+    func buttonTapped(_ sender: UIButton)
+
+}
+
 class MenuBar: UIView {
 
     // MARK: - Properties
+
+    weak var delegate: MenuBarDelegate?
 
     lazy var playlistsButton: UIButton = {
         let button = UIButton()
@@ -118,7 +126,7 @@ extension MenuBar {
 extension MenuBar {
 
     @objc func buttonTapped(_ sender: UIButton) {
-        print(#function, sender.tag)
+        delegate?.buttonTapped(sender)
     }
 
 }
