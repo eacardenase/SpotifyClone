@@ -78,6 +78,7 @@ class MenuBar: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
 
+        setAlpha(for: playlistsButton)
         setupViews()
     }
 
