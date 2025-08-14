@@ -47,7 +47,13 @@ class TitleBarViewController: UIViewController {
         PodcastViewController(),
     ]
 
-    lazy var container = ContainerViewController(withPages: viewControllers)
+    lazy var container: ContainerViewController = {
+        let _container = ContainerViewController(withPages: viewControllers)
+
+        _container.delegate = self
+
+        return _container
+    }()
 
     // MARK: - View Lifecycle
 
@@ -69,6 +75,8 @@ extension TitleBarViewController {
             musicBarButtonItem,
             podcastBarButtonItem,
         ]
+
+        updateTitleBar(for: musicBarButtonItem)
     }
 
     private func setupViews() {
@@ -93,6 +101,22 @@ extension TitleBarViewController {
         ])
     }
 
+    private func updateTitleBar(
+        for barItem: UIBarButtonItem
+    ) {
+        if barItem == musicBarButtonItem {
+            UIView.animate(withDuration: 0.5) {
+                self.musicBarButtonItem.customView?.alpha = 1
+                self.podcastBarButtonItem.customView?.alpha = 0.5
+            }
+        } else if barItem == podcastBarButtonItem {
+            UIView.animate(withDuration: 0.5) {
+                self.musicBarButtonItem.customView?.alpha = 0.5
+                self.podcastBarButtonItem.customView?.alpha = 1
+            }
+        }
+    }
+
 }
 
 // MARK: - Actions
@@ -111,6 +135,8 @@ extension TitleBarViewController {
             direction: .reverse,
             animated: true
         )
+
+        updateTitleBar(for: musicBarButtonItem)
     }
 
     @objc func podcastTapped(_ sender: UIBarButtonItem) {
@@ -125,6 +151,25 @@ extension TitleBarViewController {
             direction: .forward,
             animated: true
         )
+
+        updateTitleBar(for: podcastBarButtonItem)
+    }
+
+}
+
+// MARK: - ContainerViewControllerDelegate
+
+extension TitleBarViewController: ContainerViewControllerDelegate {
+
+    func willTransition(to pendingViewControllers: [UIViewController]) {
+
+        if let pendingViewController = pendingViewControllers.first,
+            pendingViewController == viewControllers.first
+        {
+            updateTitleBar(for: musicBarButtonItem)
+        } else {
+            updateTitleBar(for: podcastBarButtonItem)
+        }
     }
 
 }

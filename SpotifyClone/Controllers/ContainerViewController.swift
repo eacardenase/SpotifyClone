@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol ContainerViewControllerDelegate: AnyObject {
+
+    func willTransition(to pendingViewControllers: [UIViewController])
+
+}
+
 class ContainerViewController: UIViewController {
 
     lazy var pageViewController: UIPageViewController = {
@@ -19,6 +25,8 @@ class ContainerViewController: UIViewController {
     }()
     var pages: [UIViewController]
     var currentViewController: UIViewController
+
+    weak var delegate: ContainerViewControllerDelegate?
 
     // MARK: - Initializes
 
@@ -49,12 +57,11 @@ class ContainerViewController: UIViewController {
 extension ContainerViewController {
 
     private func setupViews() {
-        view.backgroundColor = .systemPink
-
         addChild(pageViewController)
         view.addSubview(pageViewController.view)
 
         pageViewController.dataSource = self
+        pageViewController.delegate = self
         pageViewController.view.bounds = view.bounds
         pageViewController.didMove(toParent: self)
         pageViewController.setViewControllers(
@@ -102,6 +109,19 @@ extension ContainerViewController: UIPageViewControllerDataSource {
         currentViewController = pages[index + 1]
 
         return currentViewController
+    }
+
+}
+
+// MARK: - UIPageViewControllerDelegate
+
+extension ContainerViewController: UIPageViewControllerDelegate {
+
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        willTransitionTo pendingViewControllers: [UIViewController]
+    ) {
+        delegate?.willTransition(to: pendingViewControllers)
     }
 
 }
