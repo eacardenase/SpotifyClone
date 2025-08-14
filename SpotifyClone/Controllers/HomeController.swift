@@ -47,6 +47,7 @@ class HomeController: UIViewController {
         )
 
         pageVC.dataSource = self
+        pageVC.delegate = self
 
         return pageVC
     }()
@@ -126,6 +127,7 @@ extension HomeController {
         )
 
         currentViewController = pages.first!
+        menuBar.selectItem(at: 0)
     }
 
 }
@@ -133,6 +135,7 @@ extension HomeController {
 // MARK: - UIPageViewControllerDataSource
 
 extension HomeController: UIPageViewControllerDataSource {
+
     func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController
@@ -164,6 +167,24 @@ extension HomeController: UIPageViewControllerDataSource {
 
         return currentViewController
     }
+
+}
+
+// MARK: - UIPageViewControllerDelegate
+
+extension HomeController: UIPageViewControllerDelegate {
+
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        willTransitionTo pendingViewControllers: [UIViewController]
+    ) {
+        if let pendingVC = pendingViewControllers.first,
+            let index = pages.firstIndex(of: pendingVC)
+        {
+            menuBar.selectItem(at: index)
+        }
+    }
+
 }
 
 // MARK: - MenuBarDelegate
@@ -189,6 +210,8 @@ extension HomeController: MenuBarDelegate {
             direction: scrollDirection,
             animated: true
         )
+
+        menuBar.selectItem(at: sender.tag)
     }
 
 }

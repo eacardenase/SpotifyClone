@@ -119,6 +119,33 @@ extension MenuBar {
         ])
     }
 
+    func selectItem(at index: Int) {
+        let button: UIButton
+
+        switch index {
+        case 0:
+            button = playlistsButton
+        case 1:
+            button = artistsButton
+        case 2:
+            button = albumsButton
+        default:
+            button = playlistsButton
+        }
+
+        UIView.animate(withDuration: 0.3) {
+            self.setAlpha(for: button)
+        }
+    }
+
+    private func setAlpha(for button: UIButton) {
+        playlistsButton.alpha = 0.5
+        artistsButton.alpha = 0.5
+        albumsButton.alpha = 0.5
+
+        button.alpha = 1
+    }
+
 }
 
 // MARK: - Actions
