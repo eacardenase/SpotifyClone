@@ -28,7 +28,7 @@ class CustomBarButtonItem: UIBarButtonItem {
             string: title,
             attributes: [
                 .font: UIFont(descriptor: fontDescriptor, size: 0),
-                .foregroundColor: UIColor.label,
+                .foregroundColor: UIColor.white,
             ]
         )
 

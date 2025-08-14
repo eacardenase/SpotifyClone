@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
 
         window?.rootViewController = navigationController
-        window?.backgroundColor = .systemBackground
+        window?.backgroundColor = .spotifyBlack
 
         window?.makeKeyAndVisible()
     }
