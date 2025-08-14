@@ -42,12 +42,12 @@ class TitleBarViewController: UIViewController {
         action: #selector(podcastTapped)
     )
 
-    let container = ContainerViewController()
-
     let viewControllers: [UIViewController] = [
         MusicViewController(),
         PodcastViewController(),
     ]
+
+    lazy var container = ContainerViewController(withPages: viewControllers)
 
     // MARK: - View Lifecycle
 
@@ -100,39 +100,31 @@ extension TitleBarViewController {
 extension TitleBarViewController {
 
     @objc func musicTapped(_ sender: UIBarButtonItem) {
-        guard
-            let musicViewController = viewControllers.first,
-            let podcastViewController = viewControllers.last,
-            container.children.first != musicViewController
-        else {
+        guard let musicViewController = viewControllers.first else {
             return
         }
 
-        container.addChild(musicViewController)
-        container.view.addSubview(musicViewController.view)
-        musicViewController.didMove(toParent: container)
-
-        podcastViewController.willMove(toParent: nil)
-        podcastViewController.view.removeFromSuperview()
-        podcastViewController.removeFromParent()
+        container.pageViewController.setViewControllers(
+            [
+                musicViewController
+            ],
+            direction: .reverse,
+            animated: true
+        )
     }
 
     @objc func podcastTapped(_ sender: UIBarButtonItem) {
-        guard
-            let musicViewController = viewControllers.first,
-            let podcastViewController = viewControllers.last,
-            container.children.first != podcastViewController
-        else {
+        guard let podcastViewController = viewControllers.last else {
             return
         }
 
-        container.addChild(podcastViewController)
-        container.view.addSubview(podcastViewController.view)
-        podcastViewController.didMove(toParent: container)
-
-        musicViewController.willMove(toParent: nil)
-        musicViewController.view.removeFromSuperview()
-        musicViewController.removeFromParent()
+        container.pageViewController.setViewControllers(
+            [
+                podcastViewController
+            ],
+            direction: .forward,
+            animated: true
+        )
     }
 
 }
