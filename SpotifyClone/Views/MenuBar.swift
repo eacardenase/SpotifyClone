@@ -9,7 +9,7 @@ import UIKit
 
 protocol MenuBarDelegate: AnyObject {
 
-    func buttonTapped(_ sender: UIButton)
+    func didSelectItemAt(index: Int)
 
 }
 
@@ -154,7 +154,7 @@ extension MenuBar {
 extension MenuBar {
 
     @objc func buttonTapped(_ sender: UIButton) {
-        delegate?.buttonTapped(sender)
+        delegate?.didSelectItemAt(index: sender.tag)
     }
 
 }

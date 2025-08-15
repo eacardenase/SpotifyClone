@@ -19,6 +19,35 @@ class HomeController: UIViewController {
         return _menuBar
     }()
 
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+
+        let collection = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
+
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.dataSource = self
+        collection.delegate = self
+        collection.backgroundColor = .spotifyBlack
+        collection.isPagingEnabled = true
+        collection.register(
+            PlaylistCell.self,
+            forCellWithReuseIdentifier: NSStringFromClass(PlaylistCell.self)
+        )
+
+        return collection
+    }()
+
+    let colors: [UIColor] = [
+        .systemRed,
+        .systemGreen,
+        .systemBlue,
+    ]
 
     // MARK: - View Lifecycle
 
@@ -38,6 +67,7 @@ extension HomeController {
         view.backgroundColor = .spotifyBlack
 
         view.addSubview(menuBar)
+        view.addSubview(collectionView)
 
         // menuBar
         NSLayoutConstraint.activate([
@@ -51,6 +81,77 @@ extension HomeController {
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor
             ),
         ])
+
+        // collectionView
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(
+                equalTo: menuBar.bottomAnchor,
+                constant: 16
+            ),
+            collectionView.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor
+            ),
+            collectionView.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor
+            ),
+            collectionView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            ),
+        ])
+    }
+
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension HomeController: UICollectionViewDataSource {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        return colors.count
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: NSStringFromClass(PlaylistCell.self),
+                for: indexPath
+            ) as? PlaylistCell
+        else {
+            fatalError("Could not create PlaylistCell")
+        }
+
+        cell.backgroundColor = colors[indexPath.item]
+
+        return cell
+    }
+
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension HomeController: UICollectionViewDelegate {
+
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension HomeController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(
+            width: collectionView.frame.width,
+            height: collectionView.frame.height
+        )
     }
 
 }
@@ -59,8 +160,8 @@ extension HomeController {
 
 extension HomeController: MenuBarDelegate {
 
-    func buttonTapped(_ sender: UIButton) {
-        menuBar.selectItem(at: sender.tag)
+    func didSelectItemAt(index: Int) {
+        menuBar.selectItem(at: index)
     }
 
 }
