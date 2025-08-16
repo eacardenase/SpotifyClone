@@ -161,6 +161,14 @@ extension HomeController: UICollectionViewDelegateFlowLayout {
 extension HomeController: MenuBarDelegate {
 
     func didSelectItemAt(index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+
+        collectionView.scrollToItem(
+            at: indexPath,
+            at: [],
+            animated: true
+        )
+
         menuBar.selectItem(at: index)
     }
 
