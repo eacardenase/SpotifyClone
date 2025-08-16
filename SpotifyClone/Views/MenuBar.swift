@@ -67,6 +67,12 @@ class MenuBar: UIView {
         return button
     }()
 
+    lazy var buttons = [
+        playlistsButton,
+        artistsButton,
+        albumsButton,
+    ]
+
     let indicator: UIView = {
         let view = UIView()
 
@@ -76,11 +82,24 @@ class MenuBar: UIView {
         return view
     }()
 
-    var indicatorLeadingConstraint = NSLayoutConstraint()
-    var indicatorTrailingConstraint = NSLayoutConstraint()
-
-    let leadPadding: CGFloat = 16
-    let buttonSpace: CGFloat = 36
+    var indicatorLeadingConstraint = NSLayoutConstraint() {
+        didSet {
+            oldValue.isActive = false
+            indicatorLeadingConstraint.isActive = true
+        }
+    }
+    var indicatorTrailingConstraint = NSLayoutConstraint() {
+        didSet {
+            oldValue.isActive = false
+            indicatorTrailingConstraint.isActive = true
+        }
+    }
+    var indicatorXConstraint = NSLayoutConstraint() {
+        didSet {
+            oldValue.isActive = false
+            indicatorXConstraint.isActive = true
+        }
+    }
 
     // MARK: - Initializers
 
@@ -116,7 +135,7 @@ extension MenuBar {
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = buttonSpace
+        stackView.spacing = 36
 
         addSubview(stackView)
         addSubview(indicator)
@@ -126,7 +145,7 @@ extension MenuBar {
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
-                constant: leadPadding
+                constant: 16
             ),
         ])
 
@@ -142,16 +161,13 @@ extension MenuBar {
         indicatorTrailingConstraint = indicator.trailingAnchor.constraint(
             equalTo: playlistsButton.trailingAnchor
         )
-
-        indicatorLeadingConstraint.isActive = true
-        indicatorTrailingConstraint.isActive = true
+        indicatorXConstraint = indicator.centerXAnchor.constraint(
+            equalTo: playlistsButton.centerXAnchor
+        )
     }
 
     func selectItem(at index: Int) {
         let button: UIButton
-
-        indicatorLeadingConstraint.isActive = false
-        indicatorTrailingConstraint.isActive = false
 
         switch index {
         case 0:
@@ -164,19 +180,23 @@ extension MenuBar {
             button = playlistsButton
         }
 
-        indicatorLeadingConstraint = indicator.leadingAnchor.constraint(
-            equalTo: button.leadingAnchor
-        )
-        indicatorTrailingConstraint = indicator.trailingAnchor.constraint(
-            equalTo: button.trailingAnchor
-        )
-
-        UIView.animate(withDuration: 0.3) {
+        UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
             self.setAlpha(for: button)
 
-            self.indicatorLeadingConstraint.isActive = true
-            self.indicatorTrailingConstraint.isActive = true
-        }
+            self.indicatorLeadingConstraint = self.indicator.leadingAnchor
+                .constraint(
+                    equalTo: button.leadingAnchor
+                )
+            self.indicatorTrailingConstraint = self.indicator.trailingAnchor
+                .constraint(
+                    equalTo: button.trailingAnchor
+                )
+            self.indicatorXConstraint = self.indicator.centerXAnchor.constraint(
+                equalTo: button.centerXAnchor
+            )
+
+            self.layoutIfNeeded()
+        }.startAnimation()
     }
 
     private func setAlpha(for button: UIButton) {
