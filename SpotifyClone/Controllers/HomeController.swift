@@ -139,6 +139,22 @@ extension HomeController: UICollectionViewDelegate {
 
 }
 
+// MARK: - UIScrollViewDelegate
+
+extension HomeController: UIScrollViewDelegate {
+
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        let index = targetContentOffset.pointee.x / view.frame.width
+
+        menuBar.selectItem(at: Int(index))
+    }
+
+}
+
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension HomeController: UICollectionViewDelegateFlowLayout {
