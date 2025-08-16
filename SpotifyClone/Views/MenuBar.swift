@@ -82,16 +82,10 @@ class MenuBar: UIView {
         return view
     }()
 
-    var indicatorLeadingConstraint = NSLayoutConstraint() {
+    var indicatorWidthConstraint = NSLayoutConstraint() {
         didSet {
             oldValue.isActive = false
-            indicatorLeadingConstraint.isActive = true
-        }
-    }
-    var indicatorTrailingConstraint = NSLayoutConstraint() {
-        didSet {
-            oldValue.isActive = false
-            indicatorTrailingConstraint.isActive = true
+            indicatorWidthConstraint.isActive = true
         }
     }
     var indicatorXConstraint = NSLayoutConstraint() {
@@ -155,11 +149,8 @@ extension MenuBar {
             indicator.heightAnchor.constraint(equalToConstant: 3),
         ])
 
-        indicatorLeadingConstraint = indicator.leadingAnchor.constraint(
-            equalTo: playlistsButton.leadingAnchor
-        )
-        indicatorTrailingConstraint = indicator.trailingAnchor.constraint(
-            equalTo: playlistsButton.trailingAnchor
+        indicatorWidthConstraint = indicator.widthAnchor.constraint(
+            equalTo: playlistsButton.widthAnchor
         )
         indicatorXConstraint = indicator.centerXAnchor.constraint(
             equalTo: playlistsButton.centerXAnchor
@@ -183,13 +174,9 @@ extension MenuBar {
         UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
             self.setAlpha(for: button)
 
-            self.indicatorLeadingConstraint = self.indicator.leadingAnchor
+            self.indicatorWidthConstraint = self.indicator.widthAnchor
                 .constraint(
-                    equalTo: button.leadingAnchor
-                )
-            self.indicatorTrailingConstraint = self.indicator.trailingAnchor
-                .constraint(
-                    equalTo: button.trailingAnchor
+                    equalTo: button.widthAnchor
                 )
             self.indicatorXConstraint = self.indicator.centerXAnchor.constraint(
                 equalTo: button.centerXAnchor
