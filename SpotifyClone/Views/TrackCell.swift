@@ -9,6 +9,8 @@ import UIKit
 
 class TrackCell: UICollectionViewCell {
 
+    // MARK: Properties
+
     var imageView: UIImageView = {
         let _imageView = UIImageView()
 
@@ -58,6 +60,8 @@ class TrackCell: UICollectionViewCell {
         }
     }
 
+    // MARK: - Initializers
+
     override init(frame: CGRect) {
         super.init(frame: .zero)
 
@@ -91,7 +95,7 @@ extension TrackCell {
             imageView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor
             ),
-            imageView.heightAnchor.constraint(equalToConstant: 76),
+            imageView.heightAnchor.constraint(equalToConstant: 72),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
         ])
 
