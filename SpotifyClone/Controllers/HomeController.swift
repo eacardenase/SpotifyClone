@@ -49,6 +49,12 @@ class HomeController: UIViewController {
         .systemBlue,
     ]
 
+    let music = [
+        playlists,
+        artists,
+        albums,
+    ]
+
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
@@ -110,7 +116,7 @@ extension HomeController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return colors.count
+        return music.count
     }
 
     func collectionView(
@@ -126,7 +132,7 @@ extension HomeController: UICollectionViewDataSource {
             fatalError("Could not create PlaylistCell")
         }
 
-        cell.backgroundColor = colors[indexPath.item]
+        cell.tracks = music[indexPath.item]
 
         return cell
     }
