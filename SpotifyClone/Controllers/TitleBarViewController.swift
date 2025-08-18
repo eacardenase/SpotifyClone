@@ -47,13 +47,7 @@ class TitleBarViewController: UIViewController {
         PodcastViewController(),
     ]
 
-    lazy var container: ContainerViewController = {
-        let _container = ContainerViewController(withPages: viewControllers)
-
-//        _container.delegate = self
-
-        return _container
-    }()
+    lazy var container = ContainerViewController(withPages: viewControllers)
 
     // MARK: - View Lifecycle
 
@@ -104,16 +98,11 @@ extension TitleBarViewController {
     private func updateTitleBar(
         for barItem: UIBarButtonItem
     ) {
-        if barItem == musicBarButtonItem {
-            UIView.animate(withDuration: 0.5) {
-                self.musicBarButtonItem.customView?.alpha = 1
-                self.podcastBarButtonItem.customView?.alpha = 0.5
-            }
-        } else if barItem == podcastBarButtonItem {
-            UIView.animate(withDuration: 0.5) {
-                self.musicBarButtonItem.customView?.alpha = 0.5
-                self.podcastBarButtonItem.customView?.alpha = 1
-            }
+        UIView.animate(withDuration: 0.5) {
+            self.musicBarButtonItem.customView?.alpha = 0.5
+            self.podcastBarButtonItem.customView?.alpha = 0.5
+
+            barItem.customView?.alpha = 1
         }
     }
 
@@ -156,20 +145,3 @@ extension TitleBarViewController {
     }
 
 }
-
-// MARK: - ContainerViewControllerDelegate
-
-//extension TitleBarViewController: ContainerViewControllerDelegate {
-//
-//    func willTransition(to pendingViewControllers: [UIViewController]) {
-//
-//        if let pendingViewController = pendingViewControllers.first,
-//            pendingViewController == viewControllers.first
-//        {
-//            updateTitleBar(for: musicBarButtonItem)
-//        } else {
-//            updateTitleBar(for: podcastBarButtonItem)
-//        }
-//    }
-//
-//}
