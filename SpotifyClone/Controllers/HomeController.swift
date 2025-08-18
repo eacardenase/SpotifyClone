@@ -35,6 +35,7 @@ class HomeController: UIViewController {
         collection.delegate = self
         collection.backgroundColor = .spotifyBlack
         collection.isPagingEnabled = true
+        collection.showsHorizontalScrollIndicator = false
         collection.register(
             PlaylistCell.self,
             forCellWithReuseIdentifier: NSStringFromClass(PlaylistCell.self)

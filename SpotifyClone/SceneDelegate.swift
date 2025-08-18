@@ -20,13 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(windowScene: scene)
 
-//        let navigationController = UINavigationController(
-//            rootViewController: TitleBarViewController()
-//        )
-//
-//        window?.rootViewController = navigationController
+        let navigationController = UINavigationController(
+            rootViewController: TitleBarViewController()
+        )
 
-        window?.rootViewController = HomeController()
+        window?.rootViewController = navigationController
 
         window?.backgroundColor = .spotifyBlack
 
