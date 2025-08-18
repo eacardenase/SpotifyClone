@@ -33,7 +33,7 @@ class TrackCell: UICollectionViewCell {
         }
 
         label.font = UIFont(descriptor: fontDescriptor, size: 0)
-        label.tintColor = .white
+        label.textColor = .white
 
         return label
     }()
@@ -43,7 +43,7 @@ class TrackCell: UICollectionViewCell {
 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .subheadline)
-        label.tintColor = .white.withAlphaComponent(0.7)
+        label.textColor = .white.withAlphaComponent(0.7)
 
         return label
     }()
