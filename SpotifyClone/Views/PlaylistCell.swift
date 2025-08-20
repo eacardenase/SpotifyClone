@@ -13,27 +13,19 @@ class PlaylistCell: UICollectionViewCell {
 
     var tracks: [Track]?
 
-    lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+    lazy var tableView: UITableView = {
+        let _tableView = UITableView()
 
-        layout.minimumLineSpacing = 16
-        layout.scrollDirection = .vertical
-
-        let _collectionView = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: layout
-        )
-
-        _collectionView.translatesAutoresizingMaskIntoConstraints = false
-        _collectionView.register(
+        _tableView.translatesAutoresizingMaskIntoConstraints = false
+        _tableView.register(
             TrackCell.self,
-            forCellWithReuseIdentifier: NSStringFromClass(TrackCell.self)
+            forCellReuseIdentifier: NSStringFromClass(TrackCell.self)
         )
-        _collectionView.backgroundColor = .spotifyBlack
-        _collectionView.dataSource = self
-        _collectionView.delegate = self
+        _tableView.backgroundColor = .spotifyBlack
+        _tableView.dataSource = self
+        _tableView.delegate = self
 
-        return _collectionView
+        return _tableView
     }()
 
     // MARK: - Initializers
@@ -55,65 +47,52 @@ class PlaylistCell: UICollectionViewCell {
 extension PlaylistCell {
 
     private func setupViews() {
-        addSubview(collectionView)
+        addSubview(tableView)
 
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 
 }
 
-// MARK: - UICollectionViewDelegate
+// MARK: - UITableViewDelegate
 
-extension PlaylistCell: UICollectionViewDelegate {
+extension PlaylistCell: UITableViewDelegate {
 
 }
 
-// MARK: - UICollectionViewDataSource
+// MARK: - UITableViewDataSource
 
-extension PlaylistCell: UICollectionViewDataSource {
+extension PlaylistCell: UITableViewDataSource {
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
     ) -> Int {
         return tracks?.count ?? 0
     }
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
         guard
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: NSStringFromClass(TrackCell.self),
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: NSStringFromClass(TrackCell.self),
                 for: indexPath
             ) as? TrackCell
         else {
-            fatalError("Could not cast collection view cell to TrackCell")
+            fatalError("Could not cast table view cell to TrackCell")
         }
 
         cell.track = tracks?[indexPath.item]
+        cell.selectionStyle = .none
 
         return cell
-    }
-
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension PlaylistCell: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        return CGSize(width: frame.width, height: 72)
     }
 
 }

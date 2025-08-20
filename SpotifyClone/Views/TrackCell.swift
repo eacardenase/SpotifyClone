@@ -7,14 +7,16 @@
 
 import UIKit
 
-class TrackCell: UICollectionViewCell {
+class TrackCell: UITableViewCell {
 
     // MARK: Properties
 
-    var imageView: UIImageView = {
+    var trackImageView: UIImageView = {
         let _imageView = UIImageView()
 
         _imageView.translatesAutoresizingMaskIntoConstraints = false
+        _imageView.contentMode = .scaleAspectFit
+        _imageView.layer.masksToBounds = true
 
         return _imageView
     }()
@@ -33,7 +35,7 @@ class TrackCell: UICollectionViewCell {
         }
 
         label.font = UIFont(descriptor: fontDescriptor, size: 0)
-        label.tintColor = .white
+        label.textColor = .white
 
         return label
     }()
@@ -43,7 +45,7 @@ class TrackCell: UICollectionViewCell {
 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .subheadline)
-        label.tintColor = .white.withAlphaComponent(0.7)
+        label.textColor = .white.withAlphaComponent(0.7)
 
         return label
     }()
@@ -55,7 +57,7 @@ class TrackCell: UICollectionViewCell {
             let image =
                 UIImage(named: track.imageName) ?? UIImage(named: "placeholder")
 
-            imageView.image = image
+            trackImageView.image = image
             titleLabel.text = track.title
             subtitleLabel.text = track.artist
         }
@@ -63,8 +65,8 @@ class TrackCell: UICollectionViewCell {
 
     // MARK: - Initializers
 
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         setupViews()
     }
@@ -87,26 +89,42 @@ extension TrackCell {
         stackView.axis = .vertical
         stackView.spacing = 6
 
-        contentView.addSubview(imageView)
+        contentView.addSubview(trackImageView)
         contentView.addSubview(stackView)
 
         // imageView
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(
+            trackImageView.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: 8
+            ),
+            trackImageView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor
             ),
-            imageView.heightAnchor.constraint(equalToConstant: 72),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+            trackImageView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -8
+            ),
+            trackImageView.widthAnchor.constraint(
+                equalTo: trackImageView.heightAnchor
+            ),
+            trackImageView.centerYAnchor.constraint(
+                equalTo: contentView.centerYAnchor
+            ),
         ])
+
+        let trackImageViewHeigthConstraint = trackImageView.heightAnchor
+            .constraint(equalToConstant: 72)
+        trackImageViewHeigthConstraint.priority = UILayoutPriority(900)
+        trackImageViewHeigthConstraint.isActive = true
 
         // stackView
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(
-                equalTo: imageView.centerYAnchor
+                equalTo: trackImageView.centerYAnchor
             ),
             stackView.leadingAnchor.constraint(
-                equalTo: imageView.trailingAnchor,
+                equalTo: trackImageView.trailingAnchor,
                 constant: 16
             ),
             stackView.trailingAnchor.constraint(
