@@ -67,12 +67,6 @@ class MenuBar: UIView {
         return button
     }()
 
-    lazy var buttons = [
-        playlistsButton,
-        artistsButton,
-        albumsButton,
-    ]
-
     let indicator: UIView = {
         let view = UIView()
 

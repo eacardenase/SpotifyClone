@@ -44,12 +44,6 @@ class HomeController: UIViewController {
         return collection
     }()
 
-    let colors: [UIColor] = [
-        .systemRed,
-        .systemGreen,
-        .systemBlue,
-    ]
-
     let music = [
         playlists,
         artists,
