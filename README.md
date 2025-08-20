@@ -1,3 +1,3 @@
 #  SpotifyClone built with UIKit
 
-![demo](https://github.com/eacardenase/SpotifyClone/spotify-clip.gif)
+![demo](https://github.com/eacardenase/SpotifyClone/blob/main/spotify-clip.gif)
